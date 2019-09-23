@@ -1,0 +1,73 @@
+module "sync_task" {
+  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/base/"
+
+  environment_variables = {
+    "SOURCE" = "${var.sync_s3_source}"
+    "TARGET" = "${var.sync_s3_target}"
+  }
+
+  environment_variables_length = 2
+
+  prefix           = "${var.prefix}"
+  log_group_name   = "${var.log_group_name}"
+  log_group_region = "${var.region}"
+  log_prefix       = "${var.prefix}-sync-${var.sync_identifier}"
+
+  family = "${var.prefix}-sync-${var.sync_identifier}"
+
+  container_name = "${var.prefix}-sync-${var.sync_identifier}"
+
+  cpu_reservation    = 0
+  memory_reservation = 128
+
+  docker_image = "${var.sync_s3_docker_image}"
+}
+
+data "aws_iam_policy_document" "sync_bucket_access" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "${var.sync_s3_target}",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObject",
+    ]
+
+    resources = [
+      "${var.sync_s3_source}",
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "sync_bucket_access" {
+  name   = "${var.prefix}-sync-bucket-access"
+  role   = "${module.sync_task.role_name}"
+  policy = "${data.aws_iam_policy_document.sync_bucket_access.json}"
+}
+
+data "aws_iam_role" "sync" {
+  name = "${module.sync_task.role_name}"
+}
+
+module "sync" {
+  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/scheduled/"
+
+  family              = "${var.prefix}-sync-${var.sync_identifier}"
+  task_role_name      = "${module.sync_task.role_name}"
+  region              = "${var.region}"
+  account_id          = "${var.account_id}"
+  cluster_arn         = "${var.cluster_id}"
+  schedule_expression = "${var.cron_expression}"
+  desired_count       = 1
+  task_definition_arn = "${module.sync_task.task_definition_arn}"
+}
