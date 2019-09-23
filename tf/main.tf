@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "sync_bucket_access" {
     ]
 
     resources = [
-      "${var.sync_s3_target}",
+      "${var.sync_s3_target_arn}",
     ]
   }
 
@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "sync_bucket_access" {
     ]
 
     resources = [
-      "${var.sync_s3_source}",
+      "${var.sync_s3_source_arn}",
     ]
   }
 }
