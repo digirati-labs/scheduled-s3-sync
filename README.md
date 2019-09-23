@@ -31,4 +31,4 @@
 
 | Name           | Description                                                                     |
 |----------------|---------------------------------------------------------------------------------|
-| unique_role_id | Unique ID of task's IAM role, to be used in external account's bucket policies. |
+| role_unique_id | Unique ID of task's IAM role, to be used in external account's bucket policies. |

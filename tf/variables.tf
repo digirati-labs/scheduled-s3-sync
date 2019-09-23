@@ -1,5 +1,7 @@
 variable "sync_s3_source" {}
+variable "sync_s3_source_arn" {}
 variable "sync_s3_target" {}
+variable "sync_s3_target_arn" {}
 
 variable "log_group_name" {}
 variable "prefix" {}
