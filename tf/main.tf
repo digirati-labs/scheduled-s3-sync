@@ -28,11 +28,13 @@ data "aws_iam_policy_document" "sync_bucket_access" {
     effect = "Allow"
 
     actions = [
+      "s3:ListBucket",
       "s3:PutObject",
     ]
 
     resources = [
       "${var.sync_s3_target_arn}",
+      "${replace(var.sync_s3_target_arn, "/*", "")}",
     ]
   }
 
