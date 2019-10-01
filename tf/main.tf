@@ -41,9 +41,11 @@ data "aws_iam_policy_document" "sync_bucket_access" {
 
     actions = [
       "s3:GetObject",
+      "s3:ListBucket",
     ]
 
     resources = [
+      "${replace(var.sync_s3_source_arn, "/*", "")}",
       "${var.sync_s3_source_arn}",
     ]
   }
