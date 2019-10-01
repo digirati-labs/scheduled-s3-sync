@@ -31,4 +31,5 @@
 
 | Name           | Description                                                                     |
 |----------------|---------------------------------------------------------------------------------|
+| role_name      | Name of task's IAM role.                                                        |
 | role_unique_id | Unique ID of task's IAM role, to be used in external account's bucket policies. |

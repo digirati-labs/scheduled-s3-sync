@@ -55,10 +55,6 @@ resource "aws_iam_role_policy" "sync_bucket_access" {
   policy = "${data.aws_iam_policy_document.sync_bucket_access.json}"
 }
 
-data "aws_iam_role" "sync" {
-  name = "${module.sync_task.role_name}"
-}
-
 module "sync" {
   source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/scheduled/"
 
