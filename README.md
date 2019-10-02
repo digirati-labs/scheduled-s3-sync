@@ -15,9 +15,11 @@
 | Variable             | Description                                            | Default                           |
 |----------------------|--------------------------------------------------------|-----------------------------------|
 | sync_s3_source       | source in S3 URL format                                |                                   |
-| sync_s3_source_arn   | source in ARN format                                   |                                   |
+| sync_s3_source_arn   | source bucketin ARN format                             |                                   |
+| sync_s3_source_path  | path within source bucket (everything after initial /) | *                                 |
 | sync_s3_target       | target in S3 URL format                                |                                   |
-| sync_s3_target_arn   | target in ARN format                                   |                                   |
+| sync_s3_target_arn   | target bucket in ARN format                            |                                   |
+| sync_s3_target_path  | path within target bucket (everything after initial /) | *                                 |
 | log_group_name       | CloudWatch log group name                              |                                   |
 | prefix               | Prefix for resources                                   |                                   |
 | sync_identifier      | Unique name for this synchronisation                   |                                   |

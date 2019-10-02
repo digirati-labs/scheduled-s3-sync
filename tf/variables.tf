@@ -1,7 +1,16 @@
 variable "sync_s3_source" {}
 variable "sync_s3_source_arn" {}
+
+variable "sync_s3_source_path" {
+  default = "*"
+}
+
 variable "sync_s3_target" {}
 variable "sync_s3_target_arn" {}
+
+variable "sync_s3_target_path" {
+  default = "*"
+}
 
 variable "log_group_name" {}
 variable "prefix" {}
