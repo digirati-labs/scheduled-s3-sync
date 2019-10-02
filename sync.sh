@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "Synchronising $SOURCE and $TARGET"
-aws s3 cp $SOURCE $TARGET
+aws sync cp $SOURCE $TARGET
 
 echo "Done"
