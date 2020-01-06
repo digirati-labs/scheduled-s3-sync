@@ -1,5 +1,5 @@
 module "sync_task" {
-  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/base/"
+  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/base/?ref=v1.0"
 
   environment_variables = {
     "SOURCE" = "${var.sync_s3_source}"
@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "sync_bucket_access" {
 }
 
 module "sync" {
-  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/scheduled/"
+  source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/scheduled/?ref=v1.0"
 
   family              = "${var.prefix}-sync-${var.sync_identifier}"
   task_role_name      = "${module.sync_task.role_name}"
