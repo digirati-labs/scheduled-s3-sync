@@ -55,8 +55,8 @@ data "aws_iam_policy_document" "sync_bucket_access" {
 
 resource "aws_iam_role_policy" "sync_bucket_access" {
   name   = "${var.prefix}-sync-bucket-access"
-  role   = "${module.sync_task.role_name}"
-  policy = "${data.aws_iam_policy_document.sync_bucket_access.json}"
+  role   = module.sync_task.role_name
+  policy = data.aws_iam_policy_document.sync_bucket_access.json
 }
 
 module "sync" {
