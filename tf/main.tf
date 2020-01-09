@@ -1,7 +1,7 @@
 module "sync_task" {
   source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/base/?ref=v2.0"
 
-  environment_variables = {
+  environment_variables {
     SOURCE = "${var.sync_s3_source}"
     TARGET = "${var.sync_s3_target}"
   }
