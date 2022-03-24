@@ -2,15 +2,15 @@ module "sync_task" {
   source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/base/?ref=v2.0"
 
   environment_variables = {
-    SOURCE = "${var.sync_s3_source}"
-    TARGET = "${var.sync_s3_target}"
+    SOURCE = var.sync_s3_source
+    TARGET = var.sync_s3_target
   }
 
   environment_variables_length = 2
 
-  prefix           = "${var.prefix}"
-  log_group_name   = "${var.log_group_name}"
-  log_group_region = "${var.region}"
+  prefix           = var.prefix
+  log_group_name   = var.log_group_name
+  log_group_region = var.region
   log_prefix       = "${var.prefix}-sync-${var.sync_identifier}"
 
   family = "${var.prefix}-sync-${var.sync_identifier}"
@@ -20,7 +20,7 @@ module "sync_task" {
   cpu_reservation    = 0
   memory_reservation = 128
 
-  docker_image = "${var.sync_s3_docker_image}"
+  docker_image = var.sync_s3_docker_image
 }
 
 data "aws_iam_policy_document" "sync_bucket_access" {
@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "sync_bucket_access" {
     ]
 
     resources = [
-      "${var.sync_s3_target_arn}",
+      var.sync_s3_target_arn,
       "${var.sync_s3_target_arn}/${var.sync_s3_target_path}",
     ]
   }
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "sync_bucket_access" {
     ]
 
     resources = [
-      "${var.sync_s3_source_arn}",
+      var.sync_s3_source_arn,
       "${var.sync_s3_source_arn}/${var.sync_s3_source_path}",
     ]
   }
@@ -63,11 +63,11 @@ module "sync" {
   source = "git::https://github.com/digirati-co-uk/terraform-aws-modules.git//tf/modules/services/tasks/scheduled/?ref=v2.0"
 
   family              = "${var.prefix}-sync-${var.sync_identifier}"
-  task_role_name      = "${module.sync_task.role_name}"
-  region              = "${var.region}"
-  account_id          = "${var.account_id}"
-  cluster_arn         = "${var.cluster_id}"
-  schedule_expression = "${var.cron_expression}"
+  task_role_name      = module.sync_task.role_name
+  region              = var.region
+  account_id          = var.account_id
+  cluster_arn         = var.cluster_id
+  schedule_expression = var.cron_expression
   desired_count       = 1
-  task_definition_arn = "${module.sync_task.task_definition_arn}"
+  task_definition_arn = module.sync_task.task_definition_arn
 }
